@@ -1,0 +1,26 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        purple: "#1D1042",
+        lightPurple: "#703EFE",
+        greyText: "#B8B9BD",
+        grey: "#7D8088",
+        green: "#8BC488",
+        orange: "#FF5F37",
+        lightOrange: "#F89D4B"
+      },
+      fontFamily: {
+        inter: ["'Inter'", "sans-serif"]
+      },
+      boxShadow: {
+        topSection: "0px 4px 148px rgba(0, 0, 0, 0.02)",
+        taskCard: "0px 0px 100px rgba(0, 0, 0, 0.02)"
+      }
+    },
+  },
+  plugins: [],
+}
+
