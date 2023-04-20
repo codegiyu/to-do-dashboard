@@ -6,14 +6,13 @@ import list from "./assets/icons/list-dashes.svg";
 import lightning from "./assets/icons/lightning-black.svg";
 import plus from "./assets/icons/plus.svg";
 import SectionHeading from "./components/SectionHeading";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from "./components/TaskList";
 import AddTaskBtn from "./components/AddTaskBtn";
 import { TASKS_DATA } from "./data/props";
 
 function App() {
-  // const [sectionTotals, setSectionTotals] = useState({ todo: 0, ongoing: 0, completed: 0 })
   const [tasks, setTasks] = useState(TASKS_DATA)
 
   const progressChangeHandler = (num, id, status) => {
@@ -95,22 +94,6 @@ function App() {
 
     setTasks({ todo, ongoing, completed })
   }
-
-  // useEffect(() => {
-  //   const [todo, ongoing, completed] = tasks.reduce((acc, curr) => {
-  //     if (curr.status === "todo") {
-  //       acc[0]++
-  //     } else if (curr.status === "ongoing") {
-  //       acc[1]++
-  //     } else if (curr.status === "completed") {
-  //       acc[2]++
-  //     }
-      
-  //     return acc
-  //   }, [0, 0, 0])
-
-  //   setSectionTotals({ todo, ongoing, completed })
-  // }, [tasks])
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
