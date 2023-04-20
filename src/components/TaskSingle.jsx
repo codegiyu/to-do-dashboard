@@ -39,7 +39,7 @@ const TaskSingle = ({ taskProps }) => {
                             </figure>
                         ) : null }
 
-                        <div onClick={focusHandler} id={taskid} className="w-full flex gap-4 mb-[1.125rem]">
+                        <div onClick={focusHandler} id={taskid} className="w-full flex items-start gap-4 mb-[1.125rem]">
                             <div className="flex flex-col gap-2 flex-1">
                                 <h3 className="text-[1rem] leading-[120%] text-black font-semibold">
                                     { title }

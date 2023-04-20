@@ -99,7 +99,7 @@ function App() {
     <DragDropContext onDragEnd={onDragEnd}>
       <Layout>
         <section className="w-full h-full bg-[#FCFBFC]">
-          <section className="w-full h-fit bg-white px-16 pt-10 pb-6 flex flex-col gap-14 leading-[120%] shadow-topSection">
+          <section className="w-full h-fit bg-white lg:px-6 xl:px-16 pt-10 pb-6 flex flex-col gap-14 leading-[120%] shadow-topSection">
             <div className="w-full flex items-center justify-between">
               <div className="w-fit flex flex-col gap-1">
                 <h1 className="text-black text-[2.375rem] font-semibold tracking-[-0.02em] leading-[120%]">
@@ -113,7 +113,7 @@ function App() {
                 <span className="text-[0.875rem] leading-[120%]">ADD MEMBERS</span>
               </button>
             </div>
-            <div className="w-full flex items-center justify-between">
+            <div className="w-full flex lg:flex-col gap-7 xl:flex-row xl:items-center justify-between">
               <div className="w-fit flex items-center gap-3">
                 <ImageStack stackProps={{ bigSize: true }} />
                 <p className="text-[0.875rem] text-greyText leading-[120%]">8 members</p>
@@ -151,8 +151,8 @@ function App() {
               </ul>
             </div>
           </section>
-          <section className="w-full h-max bg-[#FCFBFC] px-16 pt-16 pb-20">
-              <div className="w-full grid grid-cols-3 gap-10">
+          <section className="w-full h-max bg-[#FCFBFC] lg:px-6 xl:px-16 pt-16 pb-20">
+              <div className="w-full grid grid-cols-3 lg:gap-4 xl:gap-10">
                 <section className="w-full">
                   <SectionHeading headingProps={{ title: "To Do", count: tasks.todo.length }} />
                   <TaskList taskProps={{
