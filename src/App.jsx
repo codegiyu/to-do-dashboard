@@ -6,41 +6,29 @@ import list from "./assets/icons/list-dashes.svg";
 import lightning from "./assets/icons/lightning-black.svg";
 import plus from "./assets/icons/plus.svg";
 import SectionHeading from "./components/SectionHeading";
-import { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from "./components/TaskList";
 import AddTaskBtn from "./components/AddTaskBtn";
-import { TASKS_DATA } from "./data/props";
+import useAlertStore from "./store/zustand/alertStore";
+import useTasksStore from "./store/zustand/tasksStore";
 
 function App() {
-  const [tasks, setTasks] = useState(TASKS_DATA)
+  const tasks = useTasksStore(state => state.tasks)
+  const setTasks = useTasksStore(state => state.setTasks)
+  const changeTaskProgress = useTasksStore(state => state.changeTaskProgress)
+
+  const setAlert = useAlertStore(state => state.setAlert)
 
   const progressChangeHandler = (num, id, status) => {
-    setTasks(prevState => {
-      const obj = { ...prevState }
-      const arr = obj[status]
-      const index = arr.findIndex(item => item.taskid === Number(id))
-      const newTask = { ...arr[index], progress: num }
-      arr[index] = newTask
-      
-      return obj
-    })
+    changeTaskProgress(num,id,status)
   }
 
   const addMemberhandler = () => {
-
+    setAlert({ type: "warning", message: "Sorry, this feature is not available yet!" })
   }
 
-  const addToDoTask = () => {
-
-  }
-
-  const addOngoingTask = () => {
-
-  }
-
-  const addCompletedTask = () => {
-
+  const handleViews = () => {
+    setAlert({ type: "warning", message: "Sorry, this feature is not available yet!" })
   }
 
   const onDragEnd = (result) => {
@@ -51,48 +39,25 @@ function App() {
         return
     }
 
-    let todo = [...tasks.todo]
-    let ongoing = [...tasks.ongoing]
-    let completed = [...tasks.completed]
-    let changedTask
+    let newTasks = { ...tasks }
+    let changedTask = newTasks[source.droppableId].splice(source.index, 1)[0]
+    changedTask.status = destination.droppableId
 
-    if (source.droppableId === "todo") {
-      changedTask = todo.splice(source.index, 1)[0]
-
-      if (destination.droppableId === "ongoing") {
-        changedTask.status = "ongoing"
-        ongoing.push(changedTask)
-      } else if (destination.droppableId === "completed") {
-        changedTask.status = "completed"
-        completed.push(changedTask)
-      }
+    if (destination.droppableId === "todo" && changedTask.progress > 0) {
+      changedTask.progress = 0
     }
 
-    if (source.droppableId === "ongoing") {
-      changedTask = ongoing.splice(source.index, 1)[0]
-
-      if (destination.droppableId === "todo") {
-        changedTask.status = "todo"
-        todo.push(changedTask)
-      } else if (destination.droppableId === "completed") {
-        changedTask.status = "completed"
-        completed.push(changedTask)
-      }
+    if (destination.droppableId === "ongoing" && changedTask.progress > 9) {
+      changedTask.progress = 8
     }
 
-    if (source.droppableId === "completed") {
-      changedTask = completed.splice(source.index, 1)[0]
-
-      if (destination.droppableId === "ongoing") {
-        changedTask.status = "ongoing"
-        ongoing.push(changedTask)
-      } else if (destination.droppableId === "todo") {
-        changedTask.status = "todo"
-        todo.push(changedTask)
-      }
+    if (destination.droppableId === "completed" && changedTask.progress < 9) {
+      changedTask.progress = 9
     }
 
-    setTasks({ todo, ongoing, completed })
+    newTasks[destination.droppableId].push(changedTask)
+    
+    setTasks(newTasks)
   }
 
   return (
@@ -120,31 +85,31 @@ function App() {
               </div>
               <ul className="w-fit flex flex-col md:flex-row items-start md:items-center gap-[1.125rem]">
                 <li>
-                  <button className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
+                  <button onClick={ handleViews } className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
                     <img src={ users } alt=""  className="w-[1.125rem]"/>
                     <p className="font-medium text-[0.875rem] leading-[120%] text-black">Participants View</p>
                   </button>
                 </li>
                 <li>
-                  <button className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
+                  <button onClick={ handleViews } className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
                     <img src={ board } alt=""  className="w-[1.125rem]"/>
                     <p className="font-medium text-[0.875rem] leading-[120%] text-black">Board View</p>
                   </button>
                 </li>
                 <li>
-                  <button className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
+                  <button onClick={ handleViews } className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
                     <img src={ list } alt=""  className="w-[1.125rem]"/>
                     <p className="font-medium text-[0.875rem] leading-[120%] text-black">List View</p>
                   </button>
                 </li>
                 <li>
-                  <button className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
+                  <button onClick={ handleViews } className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
                     <img src={ lightning } alt=""  className="w-[1.125rem]"/>
                     <p className="font-medium text-[0.875rem] leading-[120%] text-black">Power View</p>
                   </button>
                 </li>
                 <li>
-                  <button className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
+                  <button onClick={ handleViews } className="w-fit flex items-center gap-1 opacity-60 hover:opacity-100">
                     <img src={ plus } alt=""  className="w-[1.125rem]"/>
                   </button>
                 </li>
@@ -162,7 +127,7 @@ function App() {
                     }),
                     listName: "todo" }}
                   />
-                  <AddTaskBtn btnProps={{ addTaskHandler: addToDoTask }} />
+                  <AddTaskBtn btnProps={{ status: "todo" }} />
                 </section>
                 <section>
                   <SectionHeading headingProps={{ title: "In Progress", count: tasks.ongoing.length }} />
@@ -172,7 +137,7 @@ function App() {
                       return task
                     }),
                     listName: "ongoing" }} />
-                  <AddTaskBtn btnProps={{ addTaskHandler: addOngoingTask }} />
+                  <AddTaskBtn btnProps={{ status: "ongoing" }} />
                 </section>
                 <section>
                   <SectionHeading headingProps={{ title: "Completed", count: tasks.completed.length }} />
@@ -182,11 +147,9 @@ function App() {
                       return task
                     }),
                     listName: "completed" }} />
-                  <AddTaskBtn btnProps={{ addTaskHandler: addCompletedTask }} />
+                  <AddTaskBtn btnProps={{ status: "completed" }} />
                 </section>
               </div>
-            {/* <DragDropContext onDragEnd={() => {}}>
-            </DragDropContext> */}
           </section>
         </section>
       </Layout>

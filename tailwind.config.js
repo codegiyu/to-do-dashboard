@@ -23,7 +23,8 @@ module.exports = {
       },
       boxShadow: {
         topSection: "0px 4px 148px rgba(0, 0, 0, 0.02)",
-        taskCard: "0px 0px 100px rgba(0, 0, 0, 0.02)"
+        taskCard: "0px 0px 100px rgba(0, 0, 0, 0.02)",
+        alert: "1px 4px 4px rgba(0, 0, 0, 0.25)"
       }
     },
   },

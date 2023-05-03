@@ -63,7 +63,7 @@ const TaskSingle = ({ taskProps }) => {
                             </div>
 
                             <div onClick={ handleChangeProgress } data-id={taskid} data-status={status}
-                                className="w-full h-2 bg-[#EBEBEB] rounded relative overflow-hidden"
+                                className="w-full h-2 bg-[#EBEBEB] rounded relative overflow-hidden cursor-pointer"
                             >
                                 <span style={{ width: progressWidth }} 
                                     className={`h-full absolute top-0 left-0 ${progressColor} pointer-events-none`}

@@ -60,3 +60,9 @@ export const TASKS_DATA = {
         }
     ]
 }
+
+export const imageRadioOptions = [
+    { value: image1, label: "Image 1" },
+    { value: image2, label: "Image 2" },
+    { value: image3, label: "Image 3" }
+]
