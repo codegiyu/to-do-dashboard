@@ -33,11 +33,8 @@ function App() {
 
   const onDragEnd = (result) => {
     const { source, destination } = result
+    
     if (!destination) return
-
-    if (source.droppableId === destination.droppableId) {
-        return
-    }
 
     let newTasks = { ...tasks }
     let changedTask = newTasks[source.droppableId].splice(source.index, 1)[0]
@@ -47,7 +44,7 @@ function App() {
       changedTask.progress = 0
     }
 
-    if (destination.droppableId === "ongoing" && changedTask.progress > 9) {
+    if (destination.droppableId === "ongoing" && changedTask.progress > 8) {
       changedTask.progress = 8
     }
 
@@ -55,9 +52,15 @@ function App() {
       changedTask.progress = 9
     }
 
-    newTasks[destination.droppableId].push(changedTask)
+    newTasks[destination.droppableId].splice(destination.index, 0, changedTask)
     
     setTasks(newTasks)
+    if (source.droppableId !== destination.droppableId) {
+      setAlert({ 
+        type: "success",
+        message: `Task ${changedTask.taskid} moved to ${destination.droppableId[0].toUpperCase() + destination.droppableId.slice(1)}` 
+      })
+    }
   }
 
   return (

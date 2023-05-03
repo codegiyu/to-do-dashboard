@@ -4,9 +4,12 @@ import list from "../assets/icons/list-checks.svg";
 import chat from "../assets/icons/chat.svg";
 import link from "../assets/icons/link.svg";
 import ImageStack from "./ImageStack";
+import useAlertStore from "../store/zustand/alertStore";
 
 const TaskSingle = ({ taskProps }) => {
     const { taskid, index, image, title, desc, progress, messages, links, imageIsActive, progressChangeHandler, handleFocus, status } = taskProps
+
+    const setAlert = useAlertStore(state => state.setAlert)
 
     const progressColor = progress <= 3 ? "bg-orange" : progress < 9 && progress > 3 ? "bg-lightOrange" : "bg-green"
     const progressWidth = `${progress * 10}%`
@@ -48,7 +51,9 @@ const TaskSingle = ({ taskProps }) => {
                                     { desc }
                                 </p>
                             </div>
-                            <button className="w-fit">
+                            <button onClick={() => setAlert({ type: "warning", message: "Sorry, this feature is not available yet!" })} 
+                                className="w-fit"
+                            >
                                 <img src={ dots } alt="" className="w-6" />
                             </button>
                         </div>
